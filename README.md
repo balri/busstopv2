@@ -10,6 +10,9 @@ JSON body containing the XOR/base64-encoded `loc` field to either `/status` or
 { "loc": "<encoded location>" }
 ```
 
+Cross-origin `POST` requests are supported; `OPTIONS` preflight requests are
+accepted for `Content-Type`.
+
 The function uses `MIN_DISTANCE` (default `100` metres),
 `ACCEPTABLE_DELAY` (default `60` seconds), and optional `SECRET_KEYWORD`
 environment variables. Deploy this repository as a Vercel project; the stop

@@ -44,8 +44,17 @@ export default async function handler(
 	req: VercelRequest,
 	res: VercelResponse,
 ): Promise<void> {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+	if (req.method === "OPTIONS") {
+		res.status(204).end();
+		return;
+	}
+
 	if (req.method !== "POST") {
-		res.setHeader("Allow", "POST");
+		res.setHeader("Allow", "POST, OPTIONS");
 		res.status(405).json({ error: "Method not allowed" });
 		return;
 	}
@@ -82,9 +91,7 @@ export default async function handler(
 	const minDistance = Number(process.env["MIN_DISTANCE"]) || 100;
 	const nowInBrisbane = DateTime.utc().setZone("Australia/Brisbane");
 	const direction = nowInBrisbane.hour < 12 ? 1 : 0;
-	const filteredStops = stops.filter(
-		(stop) => stop.direction_id === direction,
-	);
+	const filteredStops = stops.filter((stop) => stop.direction_id === direction);
 
 	let nearest: NearestStop | null = null;
 	let minDist = Infinity;
@@ -140,10 +147,7 @@ export default async function handler(
 						typeof arrivalTime.toNumber === "function"
 							? arrivalTime.toNumber()
 							: arrivalTime;
-					if (
-						typeof timestamp !== "number" ||
-						timestamp < now - 60
-					) {
+					if (typeof timestamp !== "number" || timestamp < now - 60) {
 						continue;
 					}
 
@@ -185,10 +189,7 @@ export default async function handler(
 				delay: nextBus.delay,
 				nearest,
 			};
-			if (
-				userIsNearEnough &&
-				Math.abs(now - nextBus.arrivalTime) <= 60
-			) {
+			if (userIsNearEnough && Math.abs(now - nextBus.arrivalTime) <= 60) {
 				result.keyword = secretKeyword;
 			}
 
