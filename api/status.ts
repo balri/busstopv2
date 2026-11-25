@@ -3,8 +3,7 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import { DateTime } from "luxon";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-import stops from "../stops.json";
-
+import { getStopsFromBlob } from "../lib/stops-blob";
 import { haversine, xorDecrypt } from "./utils";
 
 const GTFS_RT_URL =
@@ -91,6 +90,14 @@ export default async function handler(
 	const minDistance = Number(process.env["MIN_DISTANCE"]) || 100;
 	const nowInBrisbane = DateTime.utc().setZone("Australia/Brisbane");
 	const direction = nowInBrisbane.hour < 12 ? 1 : 0;
+	let stops;
+	try {
+		stops = await getStopsFromBlob();
+	} catch (error) {
+		console.error("Failed to load stop data from Blob:", error);
+		res.status(500).json({ error: "Failed to load stop data" });
+		return;
+	}
 	const filteredStops = stops.filter((stop) => stop.direction_id === direction);
 
 	let nearest: NearestStop | null = null;

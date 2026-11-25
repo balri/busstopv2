@@ -1,8 +1,20 @@
 {
+	"functions": {
+		"api/cron/update-stops.ts": {
+			"maxDuration": 60
+		}
+	},
 	"rewrites": [
 		{
 			"source": "/status",
 			"destination": "/api/status"
 		}
-	]
+	],
+	"scheduled": {
+		"update-stops": {
+			"path": "/api/cron/update-stops",
+			"schedule": "0 17 * * *",
+			"requestMethod": "GET"
+		}
+	}
 }
