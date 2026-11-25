@@ -10,7 +10,7 @@
 			"destination": "/api/status"
 		}
 	],
-	"scheduled": {
+	"schedules": {
 		"update-stops": {
 			"path": "/api/cron/update-stops",
 			"schedule": "0 17 * * *",
