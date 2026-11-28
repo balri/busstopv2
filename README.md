@@ -3,8 +3,7 @@
 ## Vercel API
 
 The backend runs as a Vercel Node.js function. Send a `POST` request with a
-JSON body containing the XOR/base64-encoded `loc` field to either `/status` or
-`/api/status`:
+JSON body containing the XOR/base64-encoded `loc` field to `/api/status`:
 
 ```json
 { "loc": "<encoded location>" }

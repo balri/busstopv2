@@ -4,12 +4,6 @@
 			"maxDuration": 60
 		}
 	},
-	"rewrites": [
-		{
-			"source": "/status",
-			"destination": "/api/status"
-		}
-	],
 	"schedules": {
 		"update-stops": {
 			"path": "/api/cron/update-stops",

@@ -7,11 +7,10 @@ This repository is a Vercel deployment of the BusStop status backend.
 - `api/status.ts` is the main `POST` API handler.
 - `api/utils.ts` contains distance and location-decryption helpers.
 - `stops.json` is the bundled stop dataset.
-- `vercel.json` rewrites `/status` to `/api/status`.
 
 ## Backend conventions
 
-- Preserve the existing `POST /status` and `POST /api/status` response contract.
+- Preserve the existing `POST /api/status` response contract.
 - Accept a JSON body with an XOR/base64-encoded `loc` value.
 - Return `400` for invalid coordinates, `404` when no matching stop exists,
   and `500` when the GTFS realtime feed cannot be fetched.
